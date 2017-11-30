@@ -1,6 +1,6 @@
 # vanhempainvapaalaskuri
 ## Tarkoitus
-Vanhenmpainvapaalaskurin tarkoitus auttaa vahnempia jakamaan vanhempainrahakauden yhteinen jakso
+Vanhempainvapaalaskurin tarkoitus auttaa vahnempia jakamaan vanhempainrahakauden yhteinen jakso
 
 ## Käyttöohje
 [TODO käyttöohje]
