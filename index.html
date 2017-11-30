@@ -38,25 +38,25 @@
         <!-- Tähän sarakkeeseen lomake tietojen syöttöä varten -->
 
         <h2>Syötettävät tiedot</h2>
-        <form action="index.html" method="post">
+        <form action="js/laskuri.js" method="post">
           <div class="form-group">
             <label for="laskettuAika">Laskettu aika</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" id="laskettuAika" name="laskettuAika">
           </div>
           <div class="form-group">
             <label for="syntymaAika">Syntymäaika</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" id="syntymaAika" name="syntymaAika">
           </div>
           <div class="form-group">
             <label for="aitysvapaanAloitus">Äitysvapaan aloitus ennen laskettua aikaa</label>
             <div class="input-group">
-              <input type="number" min="30" max="50" placeholder="30...50" class="form-control">
+              <input type="number" min="30" max="50" placeholder="30...50" class="form-control" id="aitysvapaanAloitus" name="aitysvapaanAloitus">
               <span class="input-group-addon">arkipäivää</span>
             </div>
           </div>
           <div class="form-group">
             <label for="yhteisenOsanJako">Vanhenpainvapaan yhteisen osan jako </label>
-            <input type="range" name="jakoOsuus" min="0" max="100">
+            <input type="range" name="jakoOsuus" min="0" max="100" id="yhteisenOsanJako" name="yhteisenOsanJako">
           </div>
           <hr>
           <div class="btn-group btn-block" role="group">
@@ -69,6 +69,8 @@
       <!-- Tähän sarakkeeseen tulee lasketut päivämäärät  -->
       <div class="col-lg">
         <h2>Lasketut päivämäärät</h2>
+        <h6>Laskettu aika</h6>
+        <h6>Syntymäaika</h6>
 
       </div>
 
