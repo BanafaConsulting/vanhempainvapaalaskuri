@@ -7,21 +7,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/style.css">
   <!-- Normalize CSS -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-sm">
         <img src="http://via.placeholder.com/150x75" class="img-fluid" alt="tuleva logo">
       </div>
-      <div class="col-md-9">
+      <div class="col-md">
         <h1>Vanhempainvapaa.net</h1>
       </div>
     </div>
@@ -29,33 +33,69 @@
     <!-- Rivi johon tulee syöttö- ja tulossolut-->
 
     <div class="row">
-      <div class="col-md-6">
-        <p>syötettävät tiedot</p>
+      <div class="col-lg">
+
+        <!-- Tähän sarakkeeseen lomake tietojen syöttöä varten -->
+
+        <h2>Syötettävät tiedot</h2>
+        <form action="index.html" method="post">
+          <div class="form-group">
+            <label for="laskettuAika">Laskettu aika</label>
+            <input type="date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="syntymaAika">Syntymäaika</label>
+            <input type="date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="aitysvapaanAloitus">Äitysvapaan aloitus ennen laskettua aikaa</label>
+            <div class="input-group">
+              <input type="number" min="30" max="50" placeholder="30...50" class="form-control">
+              <span class="input-group-addon">arkipäivää</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="yhteisenOsanJako">Vanhenpainvapaan yhteisen osan jako </label>
+            <input type="range" name="jakoOsuus" min="0" max="100">
+          </div>
+          <hr>
+          <div class="btn-group btn-block" role="group">
+            <input class="btn btn-outline-primary btn-lg col-6" type="submit" value="Laske">
+            <input class="btn btn-outline-secondary btn-lg col-6" type="reset" value="Tyhjennä">
+          </div>
+        </form>
       </div>
-      <div class="col-md-6">
-        <p>laskettavat tiedot</p>
+
+<!-- Tähän sarakkeeseen tulee lasketut päivämäärät  -->
+      <div class="col-lg">
+        <h2>Lasketut päivämäärät</h2>
+
       </div>
+
+
+
+
     </div>
 
     <!-- Tälle riville Gantt-kaavio -->
 
     <div class="row text-center">
-      <div class="col-md-12">
-        <img src="http://via.placeholder.com/960x500" class="img-fluid" alt="Gantt-kaavio">
+      <div class="col-xl">
+        <img src="http://via.placeholder.com/1200x500" class="img-fluid" alt="Gantt-kaavio">
       </div>
     </div>
 
     <!-- Tälle riville muut laskennan yksityiskohtaiset tulokset -->
 
     <div class="row">
-      <div class="col-md-4">
-        <p>detaljit 1</p>
+      <div class="col-sm">
+        <h4>Vanhempainvapaat yhteensä</h4>
       </div>
-      <div class="col-md-4">
-        <p>detaljit 2</p>
+      <div class="col-sm">
+        <h4>Päivät lapsen kanssa</h4>
       </div>
-      <div class="col-md-4">
-        <p>detaljit 3</p>
+      <div class="col-sm">
+        <h4>Poissa töistä yhteensä</h4>
       </div>
     </div>
   </div>
