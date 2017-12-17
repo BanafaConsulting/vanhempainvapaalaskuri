@@ -39,7 +39,7 @@
         <!-- Tähän sarakkeeseen lomake tietojen syöttöä varten -->
 
 
-        <form class="container" id="needs-validation" novalidate>
+        <form id="lomakeTiedot" novalidate>
 
           <h2>Syötettävät tiedot</h2>
           <!-- TODO: lisää tool-tipit -->
@@ -68,9 +68,9 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan</label>
+            <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
             <div class="input-group">
-              <input type="number" min="1" max="18" placeholder="1...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
+              <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
               <span class="input-group-addon">arkipäivää</span>
             </div>
           </div>
@@ -87,7 +87,7 @@
 
           <div class="btn-group btn-block" role="group">
             <!-- Laskentanapin paikka -->
-            <button type="button" class="btn btn-primary btn-lg btn-block" id="laskentaNappi">Laske</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="laskentaNappi">Laske</button>
           </div>
         </form>
       </div>
