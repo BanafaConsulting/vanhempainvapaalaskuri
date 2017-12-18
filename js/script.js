@@ -44,7 +44,7 @@ var patLeaveTwoEnd; // isyysvapaan toisen osuuden lopetus (päivämäärä)
 
 var form; // muuttuja lomakkeelle, johon tiedot syötetään
 
-/*  JSON-tietojen lukeminen objektiksi palvelilmelta
+// JSON-tietojen lukeminen objektiksi palvelilmelta
 var xmlhttp = new XMLHttpRequest(); //
 xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -54,7 +54,7 @@ xmlhttp.onreadystatechange = function() {
 };
 xmlhttp.open("GET", "./files/Pyhat_2018_2022.json", true);
 xmlhttp.send();
-*/
+
 
 // Funktio vapaan päättymispäivän laskemisesta käyttäen moment.js:ää
 
