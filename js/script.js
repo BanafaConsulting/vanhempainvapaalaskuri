@@ -42,19 +42,59 @@ var patLeaveOneEnd; // isyysvapaan ensimmäisen osuuden lopetus (päivämäärä
 var patLeaveTwoBegin; // isyysvapaan toisen osuuden aloitus (päivämäärä)
 var patLeaveTwoEnd; // isyysvapaan toisen osuuden lopetus (päivämäärä)
 
+var finnishHolidays; // objekti, johon pyhäpäivät tallennetaan
+var holidaysURL = 'https://raw.githubusercontent.com/mcbalsam/vanhempainvapaalaskuri/master/files/Pyhat_2018_2022.json'; // Muuta tähän pyhäpäivien sijainti
+
 var form; // muuttuja lomakkeelle, johon tiedot syötetään
 
 // JSON-tietojen lukeminen objektiksi palvelilmelta
+
+var createCORSRequest = function(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // Most browsers.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // IE8 & IE9
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+};
+
+var url = 'https://raw.githubusercontent.com/mcbalsam/vanhempainvapaalaskuri/master/files/Pyhat_2018_2022.json';
+var method = 'GET';
+var xhr = createCORSRequest(method, url);
+
+xhr.onload = function() {
+  // Success code goes here.
+  var jsonResponse = JSON.parse(xhr.responseText);
+  finnishHolidays = jsonResponse;
+
+};
+
+xhr.onerror = function() {
+  // Error code goes here.
+  alert("Pyhapäivien hakeminen sivuilta ei onnistunut!")
+};
+
+xhr.send();
+
+
+/*
 var xmlhttp = new XMLHttpRequest(); //
 xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         var finnishHolidays = JSON.parse(this.responseText);
-        alert("OK!");
+         //TEMP: alert("OK!");
     }
 };
 xmlhttp.open("GET", "./files/Pyhat_2018_2022.json", true);
 xmlhttp.send();
-
+*/
 
 // Funktio vapaan päättymispäivän laskemisesta käyttäen moment.js:ää
 
