@@ -1,24 +1,19 @@
 "use strict";
 
-// TODO: Päätä määritelläänkö eri vapaiden jakson muuttujina vai objekteina
-
-// TODO: Bootstrap Form Control States
-
-// Tästä alkaa jQuery
-
 // TEMP jQuery kommentoitu väliaikaiseti
+
+// TODO Laske kotona vietetyt päivät ja lapsen kanssa vietety päivät
+// TODO: Lasken lapsen ikä eri vapaiden aikana
 
 // $(document).ready(function() {
 
-// jQuery methods go here...
-
-// Tähän alle määrittele muuttujat
-
+// muuttujien määrittelu alkaa
 var dueDate; // laskettu aika (päivämäärä)
 var birthDate; // syntymäaika (päivämäärä)
 var matLeaveStartDays; // äitiysvapaan aloitus ennen laskettua aikaa (arkipäivää)
 
-var matLeaveDays = 105; // äitiysvapaan päivät (arkipäivää)
+var matLeaveTotDays = 105; // äitiysvapaan kaikki päivät (arkipäivää)
+var matLeaveDays; // äitiysvapaan päivät synnytyksenjälkeen (arkipäivää)
 var patLeaveDays = 54; // isyysvapaan päivät (arkipäivää)
 var parLeaveTotDays = 158; // vanhempainvapaan kaikki päivät (arkipäivää)
 
@@ -42,13 +37,14 @@ var patLeaveOneEnd; // isyysvapaan ensimmäisen osuuden lopetus (päivämäärä
 var patLeaveTwoBegin; // isyysvapaan toisen osuuden aloitus (päivämäärä)
 var patLeaveTwoEnd; // isyysvapaan toisen osuuden lopetus (päivämäärä)
 
-var finnishHolidays; // objekti, johon pyhäpäivät tallennetaan
-var holidaysURL = 'https://raw.githubusercontent.com/mcbalsam/vanhempainvapaalaskuri/master/files/Pyhat_2018_2022.json'; // Muuta tähän pyhäpäivien sijainti
+var finnishHolidaysObj; // objekti, johon pyhäpäivät tallennetaan
+var finnishHolidaysArr = new Array(); // tyhjä array, johon kopioidaan pelkät pyhäpäivien päivämäärät
+var holidaysURL = 'https://raw.githubusercontent.com/mcbalsam/vanhempainvapaalaskuri/master/files/finnishHolidaysList.json'; // Muuta tähän pyhäpäivien sijainti
 
 var form; // muuttuja lomakkeelle, johon tiedot syötetään
+// muuttujien määrittely päättyy
 
-// JSON-tietojen lukeminen objektiksi palvelilmelta
-
+// CORS-pyynnön alku ja JSON-tietojen lukeminen objektiksi palvelilmelta. Koodin pätkä haettu alunperin osoitteesta https://test-cors.org/
 var createCORSRequest = function(method, url) {
   var xhr = new XMLHttpRequest();
   if ("withCredentials" in xhr) {
@@ -65,15 +61,17 @@ var createCORSRequest = function(method, url) {
   return xhr;
 };
 
-var url = 'https://raw.githubusercontent.com/mcbalsam/vanhempainvapaalaskuri/master/files/Pyhat_2018_2022.json';
+var url = holidaysURL;
 var method = 'GET';
 var xhr = createCORSRequest(method, url);
 
 xhr.onload = function() {
   // Success code goes here.
-  var jsonResponse = JSON.parse(xhr.responseText);
-  finnishHolidays = jsonResponse;
-
+  var jsonResponse = JSON.parse(xhr.responseText); // muuta JSON objektiksi
+  finnishHolidaysObj = jsonResponse; // tallenntaa toiseen objektiin
+  finnishHolidaysObj.forEach(function(holiday) { // tallennta päivämäärät arrayhin
+    finnishHolidaysArr.push(holiday.date);
+  });
 };
 
 xhr.onerror = function() {
@@ -82,28 +80,16 @@ xhr.onerror = function() {
 };
 
 xhr.send();
-
-
-/*
-var xmlhttp = new XMLHttpRequest(); //
-xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var finnishHolidays = JSON.parse(this.responseText);
-         //TEMP: alert("OK!");
-    }
-};
-xmlhttp.open("GET", "./files/Pyhat_2018_2022.json", true);
-xmlhttp.send();
-*/
+// CORS-pyyntö loppuu
 
 // Funktio vapaan päättymispäivän laskemisesta käyttäen moment.js:ää
-
+// FIXME: tarkista ja korjaa laskenta
 var countEndDate = function(beginDate, days) { // beginDate on moment-objekti, days on arkipäivien määrä
   var calculatedDate = beginDate.clone(); // kloonataan aloituspäivästä uusi moment-objekti
   var i = Math.abs(days); // muutetaan päivät itseisarvoksi, sillä äitysvapaan aloitus määritellään negatiivisena lukuna
   if (days >= 0) { // jos päivien määrä positiivnen, niin lasketaan päivämääriä eteenpäin (äitysvapaan aloitus on määritelty negatiivisena)
     while (i > 0) {
-      if (calculatedDate.isoWeekday() === 7) { // tarkista onko päivä sunnuntai
+      if (calculatedDate.isoWeekday() === 7 || $.inArray(calculatedDate.format("YYYY-MM-DD"), finnishHolidaysArr) !== -1) { // tarkista onko päivä sunnuntai tai pyhäpäivä
         calculatedDate.add(1, "days"); // lisää loppupäivään yksi päivä
       } else {
         calculatedDate.add(1, "days"); // lisää loppupäivään yksi päivä ja vähennä laskuria
@@ -112,7 +98,7 @@ var countEndDate = function(beginDate, days) { // beginDate on moment-objekti, d
     }
   } else { // jos päivien määrä negatiivinen, niin lasketaan päivämääriä taaksepäin
     while (i > 0) {
-      if (calculatedDate.isoWeekday() === 7) { // tarkista onko päivä sunnuntai
+      if (calculatedDate.isoWeekday() === 7 || $.inArray(calculatedDate.format("YYYY-MM-DD"), finnishHolidaysArr) !== -1) { // tarkista onko päivä sunnuntai
         calculatedDate.subtract(1, "days"); // vähennä loppupäivästä yksi päivä
       } else {
         calculatedDate.subtract(1, "days"); // vähennä loppupäivästä yksi päivä ja vähennä laskuria
@@ -120,14 +106,12 @@ var countEndDate = function(beginDate, days) { // beginDate on moment-objekti, d
       }
     }
   }
-
   return calculatedDate; // palauttaa lasketun päivämäärän;
-  // TODO: Ota huomioon myös arkipyhät
 };
+// Funkio päättyy
 
-
+// lomakkeen tieton käsittely ja päivämäärien laskenta alkaa
 form = $("#lomakeTiedot");
-
 form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napista
   form[0].classList.add("was-validated"); // lisätään lomakkeeseen CSS-luokka
   if (form[0].checkValidity() === false) {
@@ -144,7 +128,8 @@ form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napis
     // äitiysvapaan laskenta
     matLeaveStartDays = -(parseInt($("#aitysvapaanAloitusPaivat").val(), 10)); // haetaan ennen laskettua aikaa aloitettavan äitiysvapaan arkipäivien määrä ja muutetaan se negatiiviseksi kokonaisluvuksi
     matLeaveBegin = moment(countEndDate(dueDate, matLeaveStartDays)); // Laske äitiyvvapaan aloituspäivä
-    matLeaveEnd = moment(countEndDate(dueDate, (matLeaveDays - matLeaveStartDays))); // Laske syntymän jälkeen jäljellä olevat päivät ja äitiyvvapaan lopetus
+    matLeaveDays = matLeaveTotDays + matLeaveStartDays; // laske lasketun ajan jälkeen jäävät äitiyvvapaan päivät (HUOM! negatiivinen matLeaveStartDays)
+    matLeaveEnd = moment(countEndDate(dueDate, matLeaveDays)); // Laske syntymän jälkeen jäljellä olevat päivät ja äitiyvvapaan lopetus
 
     // Laske äidin vanhempainvavpaan osuus sekä aloitus- ja päättymispäivä
     parLeaveMotherDays = parseInt($("#yhteisenOsanJako").val(), 10); // haetaan äidin vanhempainvapaapäivien määrä ja muutetaan se kokonaisluvuksi
@@ -165,9 +150,9 @@ form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napis
     patLeaveDaysAlone = patLeaveDays - patLeaveDaysWithMother; // laske jäljellä olevien isyysvapaapäivienmäärä;
     patLeaveTwoBegin = moment(countEndDate(parLeaveFatherEnd, 1)); // lasketaan  isyysvapaan toisen osan aloitus alkamaan isän vanhempainvapaapäivien jälkeen
     patLeaveTwoEnd = moment(countEndDate(patLeaveTwoBegin, patLeaveDaysAlone)); // lasketaan isyysvapaan toisen osan päättymispäivä
+    // lomakkeen tieton käsittely ja päivämäärien laskenta päättyy
 
-    // Tämän alle tekstien tulostus HTML:ään
-
+    // laskettujen päivämäärien tulostus HTML:ään alkaa
     $("#aitysvapaanAlku").text(matLeaveBegin.format("D.M.Y")); // äitiysvapaan alky
     $("#aitysvapaanLoppu").text(parLeaveMotherEnd.format("D.M.Y")); // äidin vanhempainvapaan loppu
 
@@ -176,15 +161,10 @@ form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napis
 
     $("#isyyvapaanToinenAlku").text(parLeaveFatherBegin.format("D.M.Y")); // isän vanhempainvapaan alku
     $("#isyyvapaanToinenLoppu").text(patLeaveTwoEnd.format("D.M.Y")); // isyysvapaan toinen loppu
+    // laskettujen päivämäärien tulostus HTML:ään päättyy
 
   } // else:n sulku
-  // TODO Laske kotona vietetyt päivät ja lapsen kanssa vietety päivät
-
-  // TODO: Lasken lapsen ikä eri vapaiden aikana
-
 
 });
 
 // });
-
-// TODO Lisää tähän lista pyhäpäivistä joko tiedosto, array tai API (lisää WebCal Linkki). Ensimmäisenä ratkaisuna on pyhäpäivien hakeminen erilliseen tiedostoon ja niide
