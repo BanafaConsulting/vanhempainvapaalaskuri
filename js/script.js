@@ -82,12 +82,11 @@ xhr.onerror = function() {
 xhr.send();
 // CORS-pyyntö loppuu
 
-// Funktio vapaan päättymispäivän laskemisesta käyttäen moment.js:ää
-// FIXME: tarkista ja korjaa laskenta
+// Funktio vapaan päättymispäivän laskemisesta käyttäen moment.js:ää TODO: korjaa lopetuspäivämäärä pyhän tai viikonlopun loppuun TODO: keksi parempi tapa huomioda taaksepäin laskenta, 0-päivät
 var countEndDate = function(beginDate, days) { // beginDate on moment-objekti, days on arkipäivien määrä
   var calculatedDate = beginDate.clone(); // kloonataan aloituspäivästä uusi moment-objekti
   var i = Math.abs(days); // muutetaan päivät itseisarvoksi, sillä äitysvapaan aloitus määritellään negatiivisena lukuna
-  if (days >= 0) { // jos päivien määrä positiivnen, niin lasketaan päivämääriä eteenpäin (äitysvapaan aloitus on määritelty negatiivisena)
+  if (days > 0) { // jos päivien määrä positiivnen, niin lasketaan päivämääriä eteenpäin (äitysvapaan aloitus on määritelty negatiivisena)
     while (i > 0) {
       if (calculatedDate.isoWeekday() === 7 || $.inArray(calculatedDate.format("YYYY-MM-DD"), finnishHolidaysArr) !== -1) { // tarkista onko päivä sunnuntai tai pyhäpäivä
         calculatedDate.add(1, "days"); // lisää loppupäivään yksi päivä
@@ -96,7 +95,8 @@ var countEndDate = function(beginDate, days) { // beginDate on moment-objekti, d
         i--;
       }
     }
-  } else { // jos päivien määrä negatiivinen, niin lasketaan päivämääriä taaksepäin
+    return calculatedDate.subtract(1, "days");
+  } else if (days < 0) { // jos päivien määrä negatiivinen, niin lasketaan päivämääriä taaksepäin
     while (i > 0) {
       if (calculatedDate.isoWeekday() === 7 || $.inArray(calculatedDate.format("YYYY-MM-DD"), finnishHolidaysArr) !== -1) { // tarkista onko päivä sunnuntai
         calculatedDate.subtract(1, "days"); // vähennä loppupäivästä yksi päivä
@@ -105,8 +105,14 @@ var countEndDate = function(beginDate, days) { // beginDate on moment-objekti, d
         i--;
       }
     }
+    return calculatedDate; // TODO Onko turha???
   }
-  return calculatedDate; // palauttaa lasketun päivämäärän;
+  else  if (days === 0) { // jos päivien määrä on nolla. FIXME: parempi tapa huomioida 0-päivät
+    return calculatedDate;
+  }
+  else {
+    alert("VIRHE!");
+  }
 };
 // Funkio päättyy
 
@@ -126,29 +132,29 @@ form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napis
     birthDate = moment($("#syntymaAika").val(), "YYYY-MM-DD"); // haetaan syntymäaika ja luodaan uusi moment-objekti
 
     // äitiysvapaan laskenta
-    matLeaveStartDays = -(parseInt($("#aitysvapaanAloitusPaivat").val(), 10)); // haetaan ennen laskettua aikaa aloitettavan äitiysvapaan arkipäivien määrä ja muutetaan se negatiiviseksi kokonaisluvuksi
+    matLeaveStartDays = -(parseInt($("#aitysvapaanAloitusPaivat").val(), 10)); // haetaan ennen laskettua aikaa aloitettavan äitiysvapaan arkipäivien määrä ja muutetaan se negatiiviseksi kokonaisluvuksi (10-kanta)
     matLeaveBegin = moment(countEndDate(dueDate, matLeaveStartDays)); // Laske äitiyvvapaan aloituspäivä
     matLeaveDays = matLeaveTotDays + matLeaveStartDays; // laske lasketun ajan jälkeen jäävät äitiyvvapaan päivät (HUOM! negatiivinen matLeaveStartDays)
     matLeaveEnd = moment(countEndDate(dueDate, matLeaveDays)); // Laske syntymän jälkeen jäljellä olevat päivät ja äitiyvvapaan lopetus
 
     // Laske äidin vanhempainvavpaan osuus sekä aloitus- ja päättymispäivä
-    parLeaveMotherDays = parseInt($("#yhteisenOsanJako").val(), 10); // haetaan äidin vanhempainvapaapäivien määrä ja muutetaan se kokonaisluvuksi
-    parLeaveMotherBegin = moment(countEndDate(matLeaveEnd, 1)); // määrittele äidin vanhempainvapaan alku äitysvapaan päättymispäivän perusteella ja laske seuraava arkipäivä
+    parLeaveMotherDays = parseInt($("#yhteisenOsanJako").val(), 10); // haetaan äidin vanhempainvapaapäivien määrä ja muutetaan se kokonaisluvuksi (10-kanta)
+    parLeaveMotherBegin = moment(countEndDate(matLeaveEnd, 2)); // määrittele äidin vanhempainvapaan alku äitysvapaan päättymispäivän perusteella ja laske seuraava arkipäivä. Kaksi päivää, koska laskentafunktio vähentää loppupäivästä yhden päivän.
     parLeaveMotherEnd = moment(countEndDate(parLeaveMotherBegin, parLeaveMotherDays)); // lasken äidin vanhempainvavpaan loppupäivä
 
     //  Laske ensimmäisen isyysvapaan osuus sekä aloitus- ja päättymispäivä
-    patLeaveDaysWithMother = parseInt($("#isyysvapaaPaivatAidinkanssa").val(), 10); // haetaan äidin kanssa samaan aikaa vietettävien päivien määrä ja muutetaan se kokonaisluvuksi
+    patLeaveDaysWithMother = parseInt($("#isyysvapaaPaivatAidinkanssa").val(), 10); // haetaan äidin kanssa samaan aikaa vietettävien päivien määrä ja muutetaan se kokonaisluvuksi (10-kanta)
     patLeaveOneBegin = moment(birthDate); // määritellään isyysvapaan ensimmäinen osan aloitus alkamaan syntymästä ja luodaan moment-objekti
     patLeaveOneEnd = moment(countEndDate(birthDate, patLeaveDaysWithMother));
 
     //  Laske isön vanhempainvavpaan osuus sekä aloitus- ja päättymispäivä
     parLeaveFatherDays = parLeaveTotDays - parLeaveMotherDays; // lasketaan isän vanhempainvapaapäivien määrä
-    parLeaveFatherBegin = moment(countEndDate(parLeaveMotherEnd, 1)); // määrittele isän vanhempainvapaan alku äidin vanhempainvapaan päättymispäivän perusteella ja laske seuraava arkipäivä
+    parLeaveFatherBegin = moment(countEndDate(parLeaveMotherEnd, 2)); // määrittele isän vanhempainvapaan alku äidin vanhempainvapaan päättymispäivän perusteella ja laske seuraava arkipäivä. Kaksi päivää, koska laskentafunktio vähentää loppupäivästä yhden päivän.
     parLeaveFatherEnd = moment(countEndDate(parLeaveFatherBegin, parLeaveFatherDays)); // lasken isän vanhempainvavpaan loppupäivä
 
     //  Laske toisen isyysvapaan osuus sekä aloitus- ja päättymispäivä
     patLeaveDaysAlone = patLeaveDays - patLeaveDaysWithMother; // laske jäljellä olevien isyysvapaapäivienmäärä;
-    patLeaveTwoBegin = moment(countEndDate(parLeaveFatherEnd, 1)); // lasketaan  isyysvapaan toisen osan aloitus alkamaan isän vanhempainvapaapäivien jälkeen
+    patLeaveTwoBegin = moment(countEndDate(parLeaveFatherEnd, 2)); // lasketaan  isyysvapaan toisen osan aloitus alkamaan isän vanhempainvapaapäivien jälkeen. Kaksi päivää, koska laskentafunktio vähentää loppupäivästä yhden päivän.
     patLeaveTwoEnd = moment(countEndDate(patLeaveTwoBegin, patLeaveDaysAlone)); // lasketaan isyysvapaan toisen osan päättymispäivä
     // lomakkeen tieton käsittely ja päivämäärien laskenta päättyy
 
@@ -156,12 +162,18 @@ form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napis
     $("#aitysvapaanAlku").text(matLeaveBegin.format("D.M.Y")); // äitiysvapaan alky
     $("#aitysvapaanLoppu").text(parLeaveMotherEnd.format("D.M.Y")); // äidin vanhempainvapaan loppu
 
-    $("#isyyvapaanEnsimmainenAlku").text(patLeaveOneBegin.format("D.M.Y")); // isyysvapaan ensimmäinen alku
-    $("#isyyvapaanEnsimmainenLoppu").text(patLeaveOneEnd.format("D.M.Y")); // isyysvapaan ensimmäinen loppu
+    if (patLeaveOneBegin.format("D.M.Y") === patLeaveOneEnd.format("D.M.Y")) { // tarkistetaan onko loppupäivä ja alkupäivä sama
+      $("#isyyvapaanEnsimmainenAlku").text("-");
+      $("#isyyvapaanEnsimmainenLoppu").text("-"); //
+    } else {
+      $("#isyyvapaanEnsimmainenAlku").text(patLeaveOneBegin.format("D.M.Y")); // isyysvapaan ensimmäinen alku
+      $("#isyyvapaanEnsimmainenLoppu").text(patLeaveOneEnd.format("D.M.Y")); // isyysvapaan ensimmäinen loppu
+    }
 
     $("#isyyvapaanToinenAlku").text(parLeaveFatherBegin.format("D.M.Y")); // isän vanhempainvapaan alku
     $("#isyyvapaanToinenLoppu").text(patLeaveTwoEnd.format("D.M.Y")); // isyysvapaan toinen loppu
     // laskettujen päivämäärien tulostus HTML:ään päättyy
+
 
   } // else:n sulku
 
