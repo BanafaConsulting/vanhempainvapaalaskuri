@@ -22,72 +22,63 @@
 
 <body>
   <div class="container">
-
-    <div class="row custom-top-padding">
-      <!-- TODO keksi tähän parempi tapa saada marginaali -->
-      <!-- TEMP: Otsikko rivi otettu pois käytöstä
+    <div class="row">
       <div class="col-md">
         <h1>Vanhempainvapaa.net</h1>
       </div>
       <div class="col-sm text-right">
         <img src="http://via.placeholder.com/150x75" class="img-fluid" alt="tuleva logo">
       </div>
-        -->
     </div>
 
-
-
-
     <div class="row">
-      <!-- Rivi johon tulee syöttö- ja tulossolut-->
-
+      <!-- Rivi johon tulee syöttösolut -->
       <div class="col-lg">
         <!-- Tähän sarakkeeseen lomake tietojen syöttöä varten -->
-
-
-
         <form id="lomakeTiedot" novalidate>
 
-          <h2>Syötettävät tiedot</h2>
-          <!-- TODO: lisää tool-tipit -->
-
-
           <div class="row">
+
+
             <div class="col">
+              <h2>Äitiysvapaa</h2>
               <div class="form-group">
                 <label for="laskettuAika">Laskettu aika</label>
                 <input type="date" class="form-control" id="laskettuAika" name="laskettuAika" required>
               </div>
+              <div class="form-group">
+                <label for="aitysvapaanAloitusPaivat">Äitysvapaan aloitus ennen laskettua aikaa</label>
+                <div class="input-group">
+                  <input type="number" min="30" max="50" placeholder="30...50" class="form-control" id="aitysvapaanAloitusPaivat" name="aitysvapaanAloitusPaivat" required>
+                  <span class="input-group-addon">arkipäivää</span>
+                </div>
+              </div>
             </div>
 
             <div class="col">
+              <h2>Vanhempainvapaa</h2>
+              <div class="form-group">
+                <label for="yhteisenOsanJako">Äidin vanhempainvapaapäivät</label>
+                <div class="input-group">
+                  <input type="number" name="jakoOsuus" min="0" max="158" placeholder="0...158" class="form-control" id="yhteisenOsanJako" name="yhteisenOsanJako" required>
+                  <span class="input-group-addon">arkipäivää</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <h2>Isyysvapaa</h2>
               <div class="form-group">
                 <label for="syntymaAika">Syntymäaika</label>
                 <input type="date" class="form-control" id="syntymaAika" name="syntymaAika" required>
               </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="aitysvapaanAloitusPaivat">Äitysvapaan aloitus ennen laskettua aikaa</label>
-            <div class="input-group">
-              <input type="number" min="30" max="50" placeholder="30...50" class="form-control" id="aitysvapaanAloitusPaivat" name="aitysvapaanAloitusPaivat" required>
-              <span class="input-group-addon">arkipäivää</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
-            <div class="input-group">
-              <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
-              <span class="input-group-addon">arkipäivää</span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="yhteisenOsanJako">Äidin vanhempainvapaapäivät</label>
-            <div class="input-group">
-              <input type="number" name="jakoOsuus" min="0" max="158" placeholder="0...158" class="form-control" id="yhteisenOsanJako" name="yhteisenOsanJako" required>
-              <span class="input-group-addon">arkipäivää</span>
+              <div class="form-group">
+                <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
+                <div class="input-group">
+                  <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
+                  <span class="input-group-addon">arkipäivää</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -102,15 +93,18 @@
       </div>
       <!-- Lomakesarakkeen loppu -->
 
-      <!-- Tähän sarakkeeseen tulee lasketut päivämäärät  -->
+      <!-- sarake päättyy -->
+    </div>
+    <!-- rivi päättyy -->
 
+    <div class="row">
       <div class="col-lg">
 
         <h2>Lasketut päivämäärät</h2>
         <!-- TODO: Lisää kunkin jakson viereen lapsen ikä -->
         <!-- TODO: Siisti siten, että yhdysviivan tilalla on parempi/siistimpi placeholder -->
 
-        <h6>Äitysvapaa ja äidin vanhempainvapaa</h6>
+        <h6>Äitiysvapaa ja äidin vanhempainvapaa</h6>
         <div class="row">
           <div class="col">
             <span id="aitysvapaanAlku"></span><span> - </span><span id="aitysvapaanLoppu"></span>
@@ -134,29 +128,28 @@
           </div>
         </div>
 
-          <!-- TEMP: Poistettu käytöstä, sillä ei ole välttämättä tarpeellinen
-        <div class="row">
+        <!-- TEMP: Poistettu käytöstä, sillä ei ole välttämättä tarpeellinen
+    <div class="row">
 
-          <div class="col">
-            <h5>Vapaat yhteensä</h5>
-          </div>
+      <div class="col">
+        <h5>Vapaat yhteensä</h5>
+      </div>
 
-          <div class="col">
-            <h5>Päivät lapsen kanssa</h5>
-          </div>
-          <div class="col">
-            <h5>Poissa töistä yhteensä</h5>
-          </div>
-        </div>
-       -->
+      <div class="col">
+        <h5>Päivät lapsen kanssa</h5>
+      </div>
+      <div class="col">
+        <h5>Poissa töistä yhteensä</h5>
+      </div>
+    </div>
+   -->
 
       </div>
-      <!-- sarake päättyy -->
     </div>
-    <!-- rivi päättyy -->
+    <!-- Laskettujen päivämäärien rivi päättyy -->
 
     <!-- Tälle riville Gantt-kaavio -->
-<!-- TEMP: Gantt-kaavion placeholder poistetu
+    <!-- TEMP: Gantt-kaavion placeholder poistetu
     <div class="row text-center">
       <div class="col-xl">
         <img src="http://via.placeholder.com/1200x500" class="img-fluid" alt="Gantt-kaavio">
@@ -183,6 +176,7 @@
   -->
 
   </div>
+  <!-- Container päättyy -->
 
   <!-- TODO: Lisää linkki WebCaliin -->
 

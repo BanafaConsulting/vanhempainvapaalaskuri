@@ -114,7 +114,7 @@ $(document).ready(function() {
   };
   // Funkio päättyy
 
-  // lomakkeen tieton käsittely ja päivämäärien laskenta alkaa
+  // lomakkeen tieton käsittely ja päivämäärien laskenta alkaa TODO Pitää korjata, jos lomake muuttuuu
   form = $("#lomakeTiedot");
   form.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske-napista
     form[0].classList.add("was-validated"); // lisätään lomakkeeseen CSS-luokka
