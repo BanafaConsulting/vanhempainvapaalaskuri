@@ -22,95 +22,146 @@
 
 <body>
   <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #bbdefb;">
+      <!-- TODO: Lisää valikkopalkkiin ohjenappula, josta aukeaa modal -->
+      <a class="navbar-brand" href="#">Vanhempainvapaa.net</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <!-- valikon kohteet kommentoitu pois -->
+          <!--
+          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="#">Features</a>
+          <a class="nav-item nav-link" href="#">Pricing</a>  -->
+        </div>
+      </div>
+    </nav>
 
-    <div class="row custom-top-padding">
-      <!-- TODO keksi tähän parempi tapa saada marginaali -->
-      <!-- TEMP: Otsikko rivi otettu pois käytöstä
+
+    <!--    <div class="row">
       <div class="col-md">
         <h1>Vanhempainvapaa.net</h1>
       </div>
       <div class="col-sm text-right">
         <img src="http://via.placeholder.com/150x75" class="img-fluid" alt="tuleva logo">
       </div>
-        -->
-    </div>
-
-
-
+    </div>  -->
 
     <div class="row">
-      <!-- Rivi johon tulee syöttö- ja tulossolut-->
-
+      <!-- Rivi johon tulee syöttösolut -->
       <div class="col-lg">
         <!-- Tähän sarakkeeseen lomake tietojen syöttöä varten -->
 
-
-
-        <form id="lomakeTiedot" novalidate>
-
-          <h2>Syötettävät tiedot</h2>
-          <!-- TODO: lisää tool-tipit -->
-
-
           <div class="row">
-            <div class="col">
+            <div class="col form_section">
+              <form id="aitiysvapaaLomake1" novalidate>
+              <h2>Äitiysvapaa</h2>
               <div class="form-group">
                 <label for="laskettuAika">Laskettu aika</label>
                 <input type="date" class="form-control" id="laskettuAika" name="laskettuAika" required>
               </div>
-            </div>
-
-            <div class="col">
-              <div class="form-group">
-                <label for="syntymaAika">Syntymäaika</label>
-                <input type="date" class="form-control" id="syntymaAika" name="syntymaAika" required>
+              <div>
+                Äitiysvapaan aloitus välillä:
               </div>
-            </div>
-          </div>
-
+              <div class="result-cell">
+                <span id="aitysvapaanAloitusMin"></span><span> - </span><span id="aitysvapaanAloitusMax"></span>
+              </div>
+              <div class="btn-group btn-block" role="group">
+                <!-- Laskentanapin paikka -->
+                <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiMat1">Laske</button>
+              </div>
+        </form>
+        <hr>
+        <form id="aitiysvapaaLomake2" novalidate>
           <div class="form-group">
-            <label for="aitysvapaanAloitusPaivat">Äitysvapaan aloitus ennen laskettua aikaa</label>
+            <label for="aitysvapaanAloitusPvm">Valitse äitiysvapaan aloituspäivä</label>
             <div class="input-group">
-              <input type="number" min="30" max="50" placeholder="30...50" class="form-control" id="aitysvapaanAloitusPaivat" name="aitysvapaanAloitusPaivat" required>
-              <span class="input-group-addon">arkipäivää</span>
+              <input type="date" class="form-control" id="aitysvapaanAloitusPvm" name="aitysvapaanAloitusPvm" required disabled> <!-- kentän disabled-attribuutti poistetaan, kun edellinen osio on laskettu -->
             </div>
           </div>
-          <div class="form-group">
-            <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
-            <div class="input-group">
-              <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
-              <span class="input-group-addon">arkipäivää</span>
-            </div>
+          <div>
+            Laskettu äitiysvapaajakso
           </div>
-
-          <div class="form-group">
-            <label for="yhteisenOsanJako">Äidin vanhempainvapaapäivät</label>
-            <div class="input-group">
-              <input type="number" name="jakoOsuus" min="0" max="158" placeholder="0...158" class="form-control" id="yhteisenOsanJako" name="yhteisenOsanJako" required>
-              <span class="input-group-addon">arkipäivää</span>
-            </div>
+          <div class="result-cell">
+            <span id="aitysvapaanAlku"></span><span> - </span><span id="aitysvapaanLoppu"></span>
           </div>
-
-
-
           <div class="btn-group btn-block" role="group">
             <!-- Laskentanapin paikka -->
-
-            <button type="submit" class="btn btn-primary btn-lg btn-block" id="laskentaNappi">Laske</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiMat2" disabled>Laske</button>
           </div>
         </form>
+        </div>
+
+        <div class="col form_section">
+          <form id="vanhempainvapaaLomake" novalidate>
+            <h2>Vanhempainvapaa</h2>
+            <div class="form-group">
+              <label for="yhteisenOsanJako">Äidin vanhempainvapaapäivät</label>
+              <div class="input-group">
+                <input type="number" name="jakoOsuus" min="0" max="158" placeholder="0...158" class="form-control" id="yhteisenOsanJako" name="yhteisenOsanJako" required disabled>
+                <span class="input-group-addon">arkipäivää</span>
+              </div>
+            </div>
+            <div>
+              Äidin vanhenmpainvapaajakso
+            </div>
+            <div class="result-cell">
+              <span id="aidinVanhempainvapaanAlku"></span><span> - </span><span id="aidinVanhempainvapaanLoppu"></span>
+            </div>
+
+            <div>
+              Isän vanhempainvapaajakso
+            </div>
+            <div class="result-cell">
+              <span id="isanVanhempainvapaanAlku"></span><span> - </span><span id="isanVanhempainvapaanLoppu"></span>
+            </div>
+            <div class="btn-group btn-block" role="group">
+              <!-- Laskentanapin paikka -->
+              <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiParent" disabled>Laske</button>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="col form_section">
+          <form id="isyysvapaaLomake" novalidate>
+            <h2>Isyysvapaa</h2>
+            <div class="form-group">
+              <label for="syntymaAika">Syntymäaika</label>
+              <input type="date" class="form-control" id="syntymaAika" name="syntymaAika" required>
+            </div>
+            <div class="form-group">
+              <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
+              <div class="input-group">
+                <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
+                <span class="input-group-addon">arkipäivää</span>
+              </div>
+            </div>
+            <div class="btn-group btn-block" role="group">
+              <!-- Laskentanapin paikka -->
+              <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiPat">Laske</button>
+            </div>
+          </form>
+        </div>
+        </div>
       </div>
       <!-- Lomakesarakkeen loppu -->
 
-      <!-- Tähän sarakkeeseen tulee lasketut päivämäärät  -->
+      <!-- sarake päättyy -->
+    </div>
+    <!-- rivi päättyy -->
 
+
+    <!-- TEMP: Poistettu käytöstä, sillä ei ole välttämättä tarpeellinen
+    <div class="row">
       <div class="col-lg">
 
         <h2>Lasketut päivämäärät</h2>
-        <!-- TODO: Lisää kunkin jakson viereen lapsen ikä -->
-        <!-- TODO: Siisti siten, että yhdysviivan tilalla on parempi/siistimpi placeholder -->
 
-        <h6>Äitysvapaa ja äidin vanhempainvapaa</h6>
+
+        <h6>Äitiysvapaa ja äidin vanhempainvapaa</h6>
         <div class="row">
           <div class="col">
             <span id="aitysvapaanAlku"></span><span> - </span><span id="aitysvapaanLoppu"></span>
@@ -134,29 +185,28 @@
           </div>
         </div>
 
-          <!-- TEMP: Poistettu käytöstä, sillä ei ole välttämättä tarpeellinen
-        <div class="row">
 
-          <div class="col">
-            <h5>Vapaat yhteensä</h5>
-          </div>
+    <div class="row">
 
-          <div class="col">
-            <h5>Päivät lapsen kanssa</h5>
-          </div>
-          <div class="col">
-            <h5>Poissa töistä yhteensä</h5>
-          </div>
-        </div>
-       -->
-
+      <div class="col">
+        <h5>Vapaat yhteensä</h5>
       </div>
-      <!-- sarake päättyy -->
-    </div>
-    <!-- rivi päättyy -->
 
-    <!-- Tälle riville Gantt-kaavio -->
-<!-- TEMP: Gantt-kaavion placeholder poistetu
+      <div class="col">
+        <h5>Päivät lapsen kanssa</h5>
+      </div>
+      <div class="col">
+        <h5>Poissa töistä yhteensä</h5>
+      </div>
+    </div>
+   -->
+
+  </div>
+  </div>
+  <!-- Laskettujen päivämäärien rivi päättyy -->
+
+  <!-- Tälle riville Gantt-kaavio -->
+  <!-- TEMP: Gantt-kaavion placeholder poistetu
     <div class="row text-center">
       <div class="col-xl">
         <img src="http://via.placeholder.com/1200x500" class="img-fluid" alt="Gantt-kaavio">
@@ -165,9 +215,9 @@
 
 -->
 
-    <!-- Tälle riville muut laskennan yksityiskohtaiset tulokset TEMP poistettu käytöstä, kun siirretty tulokset eri kohtaan -->
+  <!-- Tälle riville muut laskennan yksityiskohtaiset tulokset TEMP poistettu käytöstä, kun siirretty tulokset eri kohtaan -->
 
-    <!--
+  <!--
     <div class="row">
       <div class="col-md-4">
         <h4>Vanhempainvapaat yhteensä</h4>
@@ -183,6 +233,8 @@
   -->
 
   </div>
+  <!-- Container päättyy -->
+
 
   <!-- TODO: Lisää linkki WebCaliin -->
 

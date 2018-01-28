@@ -1,15 +1,35 @@
-
 /*
+
 * {
   outline: 1px solid red !important;
 }
-*/
 
+*/
 
 * {
   font-family: 'Quicksand', sans-serif;
 }
 
-.custom-top-padding {
-      margin-top: 20px
+.form_section {
+border-color: black;
+border-radius: 10px;
+border-width: thin;
+border-style: solid;
+margin: 10px;
+background-color: AliceBlue;
+padding-top: 8px;
+padding-bottom: 8px;
+}
+
+.result-cell
+{
+border-color: black;
+border-radius: 3px;
+border-width: thin;
+border-style: solid;
+background-color: White;
+margin-top: 8px;
+margin-bottom: 5px;
+padding-left: 10px;
+
 }
