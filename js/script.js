@@ -222,17 +222,26 @@ formParent.submit(function(event) { // Tämän alle kaikki, mitä tapahtuu Laske
     parLeaveMotherDays = parseInt($("#yhteisenOsanJako").val(), 10); // haetaan äidin vanhempainvapaapäivien määrä ja muutetaan se kokonaisluvuksi (10-kanta)
     parLeaveMotherBegin = moment(countForward(matLeaveEnd, 2)); // määrittele äidin vanhempainvapaan alku äitysvapaan päättymispäivän perusteella ja laske seuraava arkipäivä. Kaksi päivää, koska laskentafunktio vähentää loppupäivästä yhden päivän.
     parLeaveMotherEnd = moment(countForward(parLeaveMotherBegin, parLeaveMotherDays)); // lasken äidin vanhempainvavpaan loppupäivä
+    if (parLeaveMotherDays === 0) { // if-lauseke, jolla otetaan huomioon nollan vanhempainvapaapäivän laskenta, jossa aloituspäivä on lopetuspäivän jälkeen FIXME: Keksi parempi tapa hoitaa tämä
+      $("#aidinVanhempainvapaanAlku").text("");
+      $("#aidinVanhempainvapaanLoppu").text("");
+    } else {
+      $("#aidinVanhempainvapaanAlku").text(displayDate(parLeaveMotherBegin));
+      $("#aidinVanhempainvapaanLoppu").text(displayDate(parLeaveMotherEnd));
+    }
+
 
     //  Laske isön vanhempainvavpaan osuus sekä aloitus- ja päättymispäivä
     parLeaveFatherDays = parLeaveTotDays - parLeaveMotherDays; // lasketaan isän vanhempainvapaapäivien määrä
     parLeaveFatherBegin = moment(countForward(parLeaveMotherEnd, 2)); // määrittele isän vanhempainvapaan alku äidin vanhempainvapaan päättymispäivän perusteella ja laske seuraava arkipäivä. Kaksi päivää, koska laskentafunktio vähentää loppupäivästä yhden päivän.
     parLeaveFatherEnd = moment(countForward(parLeaveFatherBegin, parLeaveFatherDays)); // lasken isän vanhempainvavpaan loppupäivä
-
-    $("#aidinVanhempainvapaanAlku").text(displayDate(parLeaveMotherBegin));
-    $("#aidinVanhempainvapaanLoppu").text(displayDate(parLeaveMotherEnd));
-    $("#isanVanhempainvapaanAlku").text(displayDate(parLeaveFatherBegin));
-    $("#isanVanhempainvapaanLoppu").text(displayDate(parLeaveFatherEnd));
-
+    if (parLeaveFatherDays === 0) { // if-lauseke, jolla otetaan huomioon nollan vanhempainvapaapäivän laskenta, jossa aloituspäivä on lopetuspäivän jälkeen FIXME: Keksi parempi tapa hoitaa tämä
+      $("#isanVanhempainvapaanAlku").text("");
+      $("#isanVanhempainvapaanLoppu").text("");
+    } else {
+      $("#isanVanhempainvapaanAlku").text(displayDate(parLeaveFatherBegin));
+      $("#isanVanhempainvapaanLoppu").text(displayDate(parLeaveFatherEnd));
+    }
   } // else:n sulku
 
 });
