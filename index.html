@@ -54,9 +54,9 @@
       <div class="col-lg">
         <!-- Tähän sarakkeeseen lomake tietojen syöttöä varten -->
 
-          <div class="row">
-            <div class="col form_section">
-              <form id="aitiysvapaaLomake1" novalidate>
+        <div class="row">
+          <div class="col form_section">
+            <form id="aitiysvapaaLomake1" novalidate>
               <h2>Äitiysvapaa</h2>
               <div class="form-group">
                 <label for="laskettuAika">Laskettu aika</label>
@@ -69,89 +69,102 @@
                 <span id="aitysvapaanAloitusMin"></span><span> - </span><span id="aitysvapaanAloitusMax"></span>
               </div>
               <div class="btn-group btn-block" role="group">
-                <!-- Laskentanapin paikka -->
+
                 <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiMat1">Laske</button>
               </div>
-        </form>
-        <hr>
-        <form id="aitiysvapaaLomake2" novalidate>
-          <div class="form-group">
-            <label for="aitysvapaanAloitusPvm">Valitse äitiysvapaan aloituspäivä</label>
-            <div class="input-group">
-              <input type="date" class="form-control" id="aitysvapaanAloitusPvm" name="aitysvapaanAloitusPvm" required disabled> <!-- kentän disabled-attribuutti poistetaan, kun edellinen osio on laskettu -->
-            </div>
-          </div>
-          <div>
-            Laskettu äitiysvapaajakso
-          </div>
-          <div class="result-cell">
-            <span id="aitysvapaanAlku"></span><span> - </span><span id="aitysvapaanLoppu"></span>
-          </div>
-          <div class="btn-group btn-block" role="group">
-            <!-- Laskentanapin paikka -->
-            <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiMat2" disabled>Laske</button>
-          </div>
-        </form>
-        </div>
-
-        <div class="col form_section">
-          <form id="vanhempainvapaaLomake" novalidate>
-            <h2>Vanhempainvapaa</h2>
-            <div class="form-group">
-              <label for="yhteisenOsanJako">Äidin vanhempainvapaapäivät</label>
-              <div class="input-group">
-                <input type="number" name="jakoOsuus" min="0" max="158" placeholder="0...158" class="form-control" id="yhteisenOsanJako" name="yhteisenOsanJako" required disabled>
-                <span class="input-group-addon">arkipäivää</span>
+            </form>
+            <hr>
+            <form id="aitiysvapaaLomake2" novalidate>
+              <div class="form-group">
+                <label for="aitysvapaanAloitusPvm">Valitse äitiysvapaan aloituspäivä</label>
+                <div class="input-group">
+                  <input type="date" class="form-control" id="aitysvapaanAloitusPvm" name="aitysvapaanAloitusPvm" required disabled>
+                  <!-- kentän disabled-attribuutti poistetaan, kun edellinen osio on laskettu -->
+                </div>
               </div>
-            </div>
-            <div>
-              Äidin vanhenmpainvapaajakso
-            </div>
-            <div class="result-cell">
-              <span id="aidinVanhempainvapaanAlku"></span><span> - </span><span id="aidinVanhempainvapaanLoppu"></span>
-            </div>
-
-            <div>
-              Isän vanhempainvapaajakso
-            </div>
-            <div class="result-cell">
-              <span id="isanVanhempainvapaanAlku"></span><span> - </span><span id="isanVanhempainvapaanLoppu"></span>
-            </div>
-            <div class="btn-group btn-block" role="group">
-              <!-- Laskentanapin paikka -->
-              <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiParent" disabled>Laske</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="col form_section">
-          <form id="isyysvapaaLomake" novalidate>
-            <h2>Isyysvapaa</h2>
-            <div class="form-group">
-              <label for="syntymaAika">Syntymäaika</label>
-              <input type="date" class="form-control" id="syntymaAika" name="syntymaAika" required>
-            </div>
-            <div class="form-group">
-              <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
-              <div class="input-group">
-                <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
-                <span class="input-group-addon">arkipäivää</span>
+              <div>
+                Laskettu äitiysvapaajakso
               </div>
-            </div>
-            <div class="btn-group btn-block" role="group">
-              <!-- Laskentanapin paikka -->
-              <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiPat">Laske</button>
-            </div>
-          </form>
-        </div>
+              <div class="result-cell">
+                <span id="aitysvapaanAlku"></span><span> - </span><span id="aitysvapaanLoppu"></span>
+              </div>
+              <div class="btn-group btn-block" role="group">
+
+                <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiMat2" disabled>Laske</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="col form_section">
+            <form id="vanhempainvapaaLomake" novalidate>
+              <h2>Vanhempainvapaa</h2>
+              <div class="form-group">
+                <label for="yhteisenOsanJako">Äidin vanhempainvapaapäivät</label>
+                <div class="input-group">
+                  <input type="number" name="jakoOsuus" min="0" max="158" placeholder="0...158" class="form-control" id="yhteisenOsanJako" name="yhteisenOsanJako" required disabled>
+                  <span class="input-group-addon">arkipäivää</span>
+                </div>
+              </div>
+              <div>
+                Äidin vanhenmpainvapaajakso
+              </div>
+              <div class="result-cell">
+                <span id="aidinVanhempainvapaanAlku"></span><span> - </span><span id="aidinVanhempainvapaanLoppu"></span>
+              </div>
+
+              <div>
+                Isän vanhempainvapaajakso
+              </div>
+              <div class="result-cell">
+                <span id="isanVanhempainvapaanAlku"></span><span> - </span><span id="isanVanhempainvapaanLoppu"></span>
+              </div>
+              <div class="btn-group btn-block" role="group">
+
+                <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiParent" disabled>Laske</button>
+              </div>
+
+            </form>
+          </div>
+
+          <div class="col form_section">
+            <form id="isyysvapaaLomake1" novalidate>
+              <h2>Isyysvapaa</h2>
+              <div class="form-group">
+                <label for="syntymaAika">Syntymäaika</label>
+                <input type="date" class="form-control" id="syntymaAika" name="syntymaAika" required>
+              </div>
+
+              <div class="form-group">
+                <label for="isyysvapaaAidinkanssa">Isä kotona äidin kanssa samaan aikaan lapsen syntymästä</label>
+                <div class="input-group">
+                  <input type="number" min="0" max="18" placeholder="0...18" class="form-control" id="isyysvapaaPaivatAidinkanssa" name="isyysvapaaPaivatAidinkanssa" required>
+                  <span class="input-group-addon">arkipäivää</span>
+                </div>
+              </div>
+              <div class="btn-group btn-block" role="group">
+
+                <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiPat1">Laske</button>
+              </div>
+            </form>
+            <hr>
+            <form id="isyysvapaaLomake2" novalidate>
+
+              <div class="form-group">
+                <label for="syntymaAika">Syntymäaika</label>
+                <input type="date" class="form-control" id="syntymaAika" name="syntymaAika" required>
+              </div>
+              <div class="btn-group btn-block" role="group">
+
+                <button type="submit" class="btn btn-primary btn-sm btn-block" id="laskentaNappiPat2">Laske</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      <!-- Lomakesarakkeen loppu -->
-
       <!-- sarake päättyy -->
     </div>
     <!-- rivi päättyy -->
+
 
 
     <!-- TEMP: Poistettu käytöstä, sillä ei ole välttämättä tarpeellinen
